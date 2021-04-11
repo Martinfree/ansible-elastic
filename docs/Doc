@@ -81,16 +81,23 @@ ansible-elastic
 	| |
 	| |- kibana-cfg.yml ========> Contains main kibana configs
 	| |
+	| |- logstash-cfg.yml ========> Contains main kibana configs
 	| |
 	| |- install-variables.yml ==> Contains variables only for installing proc
 
+firewalld:
+	1. install
+	2. start service
+	3. config firewall
+	4. kibana, elastic port open
 
 Still need to do:
  - Check repository exist and version(with var [register] and statement [when])
- - Beat template configure (jinja templates)
- - Get fact = True
- - firewalld.yml - firewall rules for services
- 
+
+Problems:
+	1. Config start services for docker (still not working)
+ 	2. Trying with yaml syntax
+	3. 
 
 ???-	Elasticsearch Beats:
 				- Filebeats
