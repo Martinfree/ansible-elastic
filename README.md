@@ -1,25 +1,40 @@
 
-<h1>About project</h1>
-this project is a demonstration of automatic database deployment using the example of using <strong>Ansible</strong> automation for internal configuration of servers. 
+# About project
 
-So far, there is a deployment using the siem server on the <strong>ELK stack</strong>.
-<h1>How it works?</h1>
+this project is a demonstration of automatic database deployment using the example of using <strong>Ansible 2.9 version</strong> automation for internal configuration of servers. 
 
-<h2>Commands</h2>
-<h2>Script order</h2>
-<h2>How to config for yours usage</h2>
-<h2>Structure</h2>
+So far, there is a deployment using the siem server with <strong>ELK stack</strong>.
+# How it works?
+Project have <strong>3 Plays</strong>:
 
-<strong>ANSIBLE-ELASTIC</strong>
+1. First, install all dependencies for ELK stack(install-dep.yml)<br>
+[[Elastic guide]](https://www.elastic.co/guide/en/elasticsearch/reference/7.12/deb.html)<br>
+[[apt_key]](https://docs.ansible.com/ansible/2.9/modules/apt_key_module.html)<br>
+[[apt_module]](https://docs.ansible.com/ansible/2.9/modules/apt_key_module.html)<br>
+[[service module]](https://docs.ansible.com/ansible/2.9/modules/apt_key_module.html)<br>
+[[Install logstash]](https://docs.ansible.com/ansible/2.9/modules/apt_key_module.html)<br>
+[[Install kibana]](https://www.elastic.co/guide/en/kibana/7.12/deb.html)<br>
+
+2. Second, config and start elasticsearch, kibana, logstash<br>
+[[Elasticsearch settings]](https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html)
+
+3. Config firewall<br>
+[[Firewalld doc]](https://docs.ansible.com/ansible/2.9/modules/firewalld_module.html)
+
+# Usage
+ansible-playbook task/main.yml
+You can just config only firewall with ```--tags config-firewall```
+
+# Structure
+**ANSIBLE-ELASTIC**
 	|<br>
-	|<br>
-	|--- <strong>tasks </strong>(execute order):<br> 
+	|--- <strong>tasks </strong>(execute order):<br>
 	|	|       <br>
-	|	|- <strong><strong>main.yml</strong></strong><br>									 
-	|	|								<br>							 
-	|	|							<br>								 
-	|	|										<br>			 
-	|	|												<br>		 
+	|	|- <strong><strong>main.yml</strong></strong>									 
+	|	|															 
+	|	|										 
+	|	|					 
+	|	|				 
 	| |- <strong>ansible-install-dep.yml</strong></strong>========> Install gnupg, add elastic GPG key, apt-transport-https, default-jre.<br>
 	| |                  						         <br>
 	| |           <br>
@@ -32,7 +47,7 @@ So far, there is a deployment using the siem server on the <strong>ELK stack</st
 	|	|- <strong>ansible-elastic.yml</strong>============> (null)start and cfg elastic						                 
 	|	|- <strong>ansible-kibana.yml</strong></strong>============> (null)start and cfg kibana						                 
 	|	|- <strong>ansible-logstash.yml</strong></strong>============> (null)start anf cfg logstash					                 
-	|	 						                <br> 
+	|	 						                <br>
 	|	 					  <br>
 |--- <strong>templates<br></strong>
 |	|<br>
