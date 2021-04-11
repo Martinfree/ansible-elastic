@@ -8,23 +8,19 @@
 # OK _______________V_________________|
 #                       
 # 
- 
+
+
 - name: "stop ufw"
   service:
     name: ufw
     state: stopped
+  ignore_errors: true
 
-- name: "delete ufw -> install firewald"
+- name: "delete ufw -> install firewalld"
   apt:
     name: ufw
     state: absent
   apt:
     name: firewalld
     state: present
-
-- name: "config firewall"
-  service:
-    name: firewalld
-    state: started
-
 

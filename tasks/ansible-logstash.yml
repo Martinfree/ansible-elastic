@@ -1,1 +1,6 @@
 
+- name: "Start logstash"  
+  service: 
+    name: logstash
+    state: started
+

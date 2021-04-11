@@ -1,0 +1,40 @@
+
+
+- name: "Strat firewalld"
+  service:
+    name: firewalld
+    state: started
+
+- name: "Except elasticsearch in firewalld"
+  firewalld:
+    service: elasticsearch
+    permanent: yes
+    state: enabled
+
+- firewalld:
+    port: "{{ el_http_port }}/tcp"
+    permanent: yes
+    state: enabled
+
+- name: "Except kibana in firewalld"
+  firewalld:
+    service: kibana
+    permanent: yes
+    state: enabled
+
+- firewalld:
+    port: "{{ kb_server_port }}/tcp"
+    permanent: yes
+    state: enabled
+
+- name: "Except logstash in firewalld"
+  firewalld:
+    service: logstash
+    permanent: yes
+    state: enabled
+
+- firewalld:
+    port: "{{ logst_port }}/tcp"
+    permanent: yes
+    state: enabled
+

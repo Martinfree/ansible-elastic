@@ -5,8 +5,6 @@
   gather_facts: yes
   tasks:
     - include_vars: ../vars/install-variables.yml 
-    - import_tasks: ansible-install-dep.yml
-    - import_tasks: ansible-install-elk.yml
   
 - name: "Config"
   hosts: localhost
@@ -14,6 +12,9 @@
   tasks:
     - include_vars: ../vars/elastic-cfg.yml
     - include_vars: ../vars/kibana-cfg.yml
+    - import_tasks: ansible-elastic.yml
+    - import_tasks: ansible-kibana.yml
+    - import_tasks: ansible-logstash.yml
   
     - name: "Config javammachine"
       template:
@@ -33,16 +34,20 @@
 
     - import_tasks: ansible-elastic.yml
     - import_tasks: ansible-kibana.yml
-  # - import_tasks: ansible-logstash.yml
+    - import_tasks: ansible-logstash.yml
 
-- name: "Test"
+- name: "Firewall setup"
   hosts: localhost
   gather_facts: yes
   tasks:
+    - include_vars: ../vars/elastic-cfg.yml
+    - include_vars: ../vars/kibana-cfg.yml
+    - include_vars: ../vars/logstash-cfg.yml
     - package_facts:
         manager: auto
-    - import_tasks: ansible-firewalld.yml
+    - import_tasks: ansible-firewalld-install.yml
       when: " 'firewalld' not in ansible_facts.packages "
+    - import_tasks: ansible-firewalld-config.yml
   tags:
-    - test
+    - config-firewall
         
