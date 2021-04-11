@@ -1,0 +1,11 @@
+# - elasticsearch.yml:
+#				- node name
+#				- path log
+#				- network host 
+#				- http port
+#
+
+el_node_name: host1
+el_path_logs: /var/log/elasticsearch
+el_network_host: 127.0.0.1
+el_http_port: 9200

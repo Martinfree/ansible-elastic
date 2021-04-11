@@ -1,0 +1,5 @@
+firewalld:
+	1. install
+	2. start service
+	3. config firewall
+	4. kibana, elastic port open

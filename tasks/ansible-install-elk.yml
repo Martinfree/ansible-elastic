@@ -1,0 +1,16 @@
+---
+- name: "Install Elasticsearch"
+  apt:
+    name: elasticsearch
+    update_cache: yes 
+
+
+- name: "Install kibana"
+  apt:
+    name: kibana
+    state: present
+
+- name: "Install logstash"
+  apt:
+    name: logstash
+    state: present

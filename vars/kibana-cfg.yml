@@ -1,0 +1,8 @@
+#	-	kibana.yml
+#				- server port
+#				- server host
+#				- kibana index
+
+kb_server_port: 5601
+kb_server_host: 127.0.0.1
+kb_kibana_index: deprecated #??? 

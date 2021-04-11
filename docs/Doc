@@ -1,0 +1,99 @@
+Documentation for this ansible-playbook
+ 
+Tasks:
+ 
+ 1. Install elasticsearch
+	urls:
+		- https://www.elastic.co/guide/en/elasticsearch/reference/7.12/deb.html
+		- https://docs.ansible.com/ansible/2.9/modules/apt_key_module.html
+		- https://docs.ansible.com/ansible/2.9/modules/apt_module.html
+		- https://docs.ansible.com/ansible/2.9/modules/service_module.html
+
+ 2. Install logstash
+		- https://www.elastic.co/guide/en/logstash/7.12/installing-logstash.html
+
+ 3. Install kibana
+		- https://www.elastic.co/guide/en/kibana/7.12/deb.html
+
+ 4. Config all systems
+		- https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html
+
+Templates:
+		- jvm.options.yml.j2 
+				https://www.elastic.co/guide/en/elasticsearch/reference/master/jvm-options.html
+		 		https://stackoverflow.com/questions/3472593/can-the-jvm-max-heap-size-be-dynamic
+		
+		- elasticsearch.yml.j2
+       https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html#network-interface-values
+			 https://github.com/elastic/ansible-elasticsearch/search?q=es_config
+		
+		- elasticsearch.repo(???)
+		
+		- kibana.yml.j2
+			https://www.elastic.co/guide/en/kibana/current/settings.html
+
+Structure:
+
+ansible-elastic	
+	|
+	|
+	|--- tasks (execute order):
+	|	|       
+	|	|       
+	|	|       
+	|	|- main.yml
+	|	|				|											 
+	|	|				|											 
+	|	|				--- First Play "Install ELK"											 
+	|	|					|								 
+	|	|					V									 
+	| |- ansible-install-dep.yml========> Install gnupg, add elastic GPG key,
+	| |       |           						         apt-transport-https, default-jre.
+	| |       |    
+	| |   ____| First Play "Instal ELK"   
+	|	|		|				
+	|	|		V		
+	|	|- ansible-elk.yml================> Install elasticsearch, kibana, logstash.
+	|	| 			|			                 
+	|	| 			|			                 
+	|	| 			| Second Play "Config" (not finished)
+	|	| 			|			                 
+	|	| 			V			                 
+	|	|- ansible-elastic.yml============> (null)start and cfg elastic						                 
+	|	|- ansible-kibana.yml============> (null)start and cfg kibana						                 
+	|	|- ansible-logstash.yml============> (null)start anf cfg logstash						                 
+	|	 						                 
+	|	 					  
+	|--- templates
+	|	|
+	|	|- jvm.options.j2 =================> javamachine options
+	|	|
+	|	|- elasticsearch.yml.j2 ===========> elasticsearch options
+	|	|
+	|	|- elasticsearch.repo =============> (null)
+	|	|
+	|	|- kibana.yml.j2 =============> kibana options
+	|
+	|
+	|--- vars (variables folder)
+	| |
+	| |- elastic-cfg.yml ========> Contains main elastic configs
+	| |
+	| |- kibana-cfg.yml ========> Contains main kibana configs
+	| |
+	| |
+	| |- install-variables.yml ==> Contains variables only for installing proc
+
+
+Still need to do:
+ - Check repository exist and version(with var [register] and statement [when])
+ - Beat template configure (jinja templates)
+ - Get fact = True
+ - firewalld.yml - firewall rules for services
+ 
+
+???-	Elasticsearch Beats:
+				- Filebeats
+				- Masterbeats
+				- Packetbeats
+	

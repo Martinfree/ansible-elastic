@@ -1,0 +1,48 @@
+---
+
+- name: "Install elk"
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - include_vars: ../vars/install-variables.yml 
+    - import_tasks: ansible-install-dep.yml
+    - import_tasks: ansible-install-elk.yml
+  
+- name: "Config"
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - include_vars: ../vars/elastic-cfg.yml
+    - include_vars: ../vars/kibana-cfg.yml
+  
+    - name: "Config javammachine"
+      template:
+        src: ../templates/jvm.options.yml.j2
+        dest: "/etc/elasticsearch/jvm.options"
+
+    
+    - name: "Config elastic"
+      template:
+        src: ../templates/elasticsearch.yml.j2
+        dest: "/etc/elasticsearch/elasticsearch.yml"
+  
+    - name: "Config kibana"
+      template:
+        src: ../templates/kibana.yml.j2
+        dest: "/etc/kibana/kibana.yml"
+
+    - import_tasks: ansible-elastic.yml
+    - import_tasks: ansible-kibana.yml
+  # - import_tasks: ansible-logstash.yml
+
+- name: "Test"
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - package_facts:
+        manager: auto
+    - import_tasks: ansible-firewalld.yml
+      when: " 'firewalld' not in ansible_facts.packages "
+  tags:
+    - test
+        
