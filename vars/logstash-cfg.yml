@@ -1,0 +1,8 @@
+# - elasticsearch.yml:
+#				- node name
+#				- path log
+#				- network host 
+#				- http port
+#
+
+logst_port: 5000
