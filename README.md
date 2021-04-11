@@ -30,11 +30,11 @@ You can just config only firewall with ```--tags config-firewall```
 	|<br>
 	|--- <strong>tasks </strong>(execute order):<br>
 	|	|       <br>
-	|	|- <strong><strong>main.yml</strong></strong>									 
-	|	|															 
-	|	|										 
-	|	|					 
-	|	|				 
+	|	|- <strong><strong>main.yml</strong></strong><br>									 
+	|	|						<br>									 
+	|	|							<br>			 
+	|	|					 <br>
+	|	|				 <br>
 	| |- <strong>ansible-install-dep.yml</strong></strong>========> Install gnupg, add elastic GPG key, apt-transport-https, default-jre.<br>
 	| |                  						         <br>
 	| |           <br>
