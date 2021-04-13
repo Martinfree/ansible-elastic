@@ -8,17 +8,14 @@ their service or server.
 processing request to local services or servers in local network(oposite for a
 regular proxy wich redirect to dedicate server).
 	- [Understand reverse poroxy](https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%80%D0%B0%D1%82%D0%BD%D1%8B%D0%B9_%D0%BF%D1%80%D0%BE%D0%BA%D1%81%D0%B8)
-3. ```
-nginx -t
-```
+3. ```bash nginx -t ```
 or (if your file not in default nginx dir)
 ```
 nginx -t -c [path-to-nginx.conf]
 ```
  - [Nginx man](https://linux.die.net/man/8/nginx)
-4. ```
-nginx -s reload
-```
+
+4. ```nginx -s reload```
  - [Nginx man](https://linux.die.net/man/8/nginx)
 
 5. Modsecuity - web application "firewall".
@@ -33,12 +30,12 @@ nginx -s reload
 		- posibility for add modules in config stage(very comfortable for project customization flexibility)
 		- we can use of any version that we need, and not be controlled only by the assembled version
 
-#Usage
+# Usage
 For execute script type:
 ```
 ansible-playbook tasks/nginx.yml
 ```
-#Structure
+# Structure
 
 **ANSIBLE-NGINX**
 	|<br>
