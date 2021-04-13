@@ -1,0 +1,40 @@
+
+- name: "Delete nginx if installed"
+  apt:
+    name: nginx
+    purge: yes
+
+- name: "Download nginx"
+  unarchive:
+    src: "http://nginx.org/download/nginx-1.18.0.tar.gz"
+    dest: /usr/src
+    remote_src: yes
+
+- name: "Install nginx"
+  shell: ./configure \ 
+         --user=nginx \
+         --group=nginx \
+         --prefix=/etc/nginx \
+         --conf-path=/etc/nginx/nginx.conf \
+         --add-module=/usr/src/ModSecurity/nginx/modsecurity \
+         --error-log-path=/var/log/nginx/error.log \
+         --http-log-path=/var/log/nginx/access.log \
+         --with-http_v2_module \
+         --with-http_secure_link_module \ 
+         --with-stream \
+         --with-http_gunzip_module \
+         --with-stream_ssl_preread_module \
+         --with-stream_realip_module \ 
+         --with-stream_ssl_module    
+  args:
+    chdir: /usr/src/nginx-1.18.0
+
+- name: "Make nginx build"
+  make:
+    chdir: /usr/src/nginx-1.18.0
+- name: "Make nginx install"
+  make:
+    chdir: /usr/src/nginx-1.18.0
+    target: install
+
+

@@ -1,0 +1,19 @@
+- name: "Install dep"
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - import_tasks: ansible-modsecurity.yml
+    - import_tasks: ansible-nginx.yml
+    - import_tasks: ansible-nginx-install-dep.yml
+    
+    - name: "Config ModSecurity rules"
+      template:
+        src: ../templates/jvm.options.yml.j2
+        dest: "/etc/nginx/modsec_includes.conf"
+
+    - name: "Config Nginx"
+      template:
+        src: ../templates/nginx.conf
+        dest: "/etc/nginx/nginx.conf"
+
+
