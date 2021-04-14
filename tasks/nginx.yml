@@ -2,9 +2,10 @@
   hosts: localhost
   gather_facts: yes
   tasks:
+    - import_tasks: ansible-nginx-install-dep.yml  
     - import_tasks: ansible-modsecurity.yml
     - import_tasks: ansible-nginx.yml
-    - import_tasks: ansible-nginx-install-dep.yml
+    
     
     - name: "Config ModSecurity rules"
       template:
