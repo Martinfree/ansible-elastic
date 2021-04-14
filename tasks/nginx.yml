@@ -2,14 +2,22 @@
   hosts: localhost
   gather_facts: yes
   tasks:
+    - include_vars: ../vars/elastic-cfg.yml
+    - include_vars: ../vars/kibana-cfg.yml
     - import_tasks: ansible-nginx-install-dep.yml  
     - import_tasks: ansible-modsecurity.yml
     - import_tasks: ansible-nginx.yml
-    
-    
+
     - name: "Config ModSecurity rules"
       template:
-        src: ../templates/jvm.options.yml.j2
+        src: ../templates/modsecurity.conf
+        dest: "/etc/nginx/modsecurity.conf"
+
+    
+    
+    - name: "Includes ModSecurity config in nginx"
+      template:
+        src: ../templates/modsec_includes.conf
         dest: "/etc/nginx/modsec_includes.conf"
 
     - name: "Config Nginx"
