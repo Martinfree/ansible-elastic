@@ -20,6 +20,6 @@ ansible-playbook --tags logstash tasks/main.yml
  [[Install guide]](https://www.elastic.co/guide/en/logstash/current/installing-logstash.html)
 
 2. Config logstash 
-	- jvm.options
-	- pipeline.yml
-	- copy plugins config by *.conf(empty now)
+	- jvm.options [[logstash jvm guide]](https://www.elastic.co/guide/en/logstash/current/jvm-settings.html)
+	- pipeline.yml [[logstashpipline.yml guide]](https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html)
+	- copy plugins config by \*.conf [[logstash plugin config guide]](https://www.elastic.co/guide/en/logstash/current/configuration-file-structure.html)
