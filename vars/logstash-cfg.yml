@@ -1,8 +1,3 @@
-# - elasticsearch.yml:
-#				- node name
-#				- path log
-#				- network host 
-#				- http port
-#
-
 logst_port: 5000
+logst_plugin_path: logstash-conf/*.conf
+logst_workers: 2

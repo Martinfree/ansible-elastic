@@ -3,5 +3,6 @@
   service: 
     name: kibana
     state: started
-
+  tags:
+    - kibana
 

@@ -4,4 +4,5 @@ ELK stack and nginx reverse proxy(if you need this)
 
 [About ELK playbook](README/ANSIBLE.md)<br/>
 [About nginx playbook](README/NGINX.md)
+[About nginx playbook](README/LOGSTASH.md)
 

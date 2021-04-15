@@ -3,14 +3,19 @@
   apt:
     name: elasticsearch
     update_cache: yes 
-
+  tags:
+    - elastic
 
 - name: "Install kibana"
   apt:
     name: kibana
     state: present
+  tags:
+    - kibana
 
 - name: "Install logstash"
   apt:
     name: logstash
     state: present
+  tags:
+    - logstash

@@ -5,36 +5,74 @@
   gather_facts: yes
   tasks:
     - include_vars: ../vars/install-variables.yml 
+    - import_tasks: ansible-install-dep.yml
+    - import_tasks: ansible-install-elk.yml
   
-- name: "Config"
+- name: "Config elastic"
   hosts: localhost
   gather_facts: yes
   tasks:
     - include_vars: ../vars/elastic-cfg.yml
-    - include_vars: ../vars/kibana-cfg.yml
     - import_tasks: ansible-elastic.yml
-    - import_tasks: ansible-kibana.yml
-    - import_tasks: ansible-logstash.yml
   
-    - name: "Config javammachine"
+    - name: "Config elastic javammachine"
       template:
-        src: ../templates/jvm.options.yml.j2
+        src: ../templates/elastic-jvm.options.yml.j2
         dest: "/etc/elasticsearch/jvm.options"
-
-    
+ 
     - name: "Config elastic"
       template:
         src: ../templates/elasticsearch.yml.j2
         dest: "/etc/elasticsearch/elasticsearch.yml"
+  tags:
+    - elastic
+
+
+- name: "Config kibana"
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - include_vars: ../vars/kibana-cfg.yml
+    - import_tasks: ansible-kibana.yml
   
     - name: "Config kibana"
       template:
         src: ../templates/kibana.yml.j2
         dest: "/etc/kibana/kibana.yml"
+  tags:
+    - kibana
 
-    - import_tasks: ansible-elastic.yml
-    - import_tasks: ansible-kibana.yml
+- name: "Config logstash"
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - include_vars: ../vars/logstash-cfg.yml
     - import_tasks: ansible-logstash.yml
+    
+    - name: "Config logstash javammachine"
+      template:
+        src: ../templates/logst-jvm.options.yml.j2
+        dest: "/etc/logstash/config/jvm.options"
+    
+    - name: "Config logstash pipeline"
+      template:
+        src: ../templates/logstash-pipelines.yml.j2
+        dest: "/etc/logstash/pipelines.yml"
+    
+        ### This is useless now
+        #    - name: "Config logstash.yml"
+        #template:
+        #src: ../templates/logstash.yml.j2
+        #dest: "/etc/logstash/config/"
+    
+    - name: "logstash plugins configs"
+      template: 
+        src: ../templates/*.conf
+        dest: "/etc/logstash/"
+        with_fileglob:
+          - logstash/*.conf
+  tags:
+    - logstash
 
 - name: "Firewall setup"
   hosts: localhost
