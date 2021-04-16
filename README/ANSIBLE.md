@@ -58,6 +58,25 @@ You can just config only firewall with ```--tags config-firewall```
 |	|- <strong>elasticsearch.repo</strong></strong> =============> (null)<br>
 |	|<br>
 |	|- <strong>kibana.yml.j2</strong> =============> kibana options<br>
+|	|<br>
+|	|<br>
+|	|- <strong>logstash-conf</strong></strong> =================> logstash plugin files<br>
+|	| |<br>
+|	| |- <strong>10-input.conf</strong></strong> =================> input config<br>
+|	| |<br>
+|	| |- <strong>20-filter.conf</strong></strong> =================> filter config<br>
+|	| |<br>
+|	| |- <strong>30-output.conf</strong></strong> =================> output config<br>
+|	| |<br>
+|	|<br>
+|	|- <strong>beats-conf</strong></strong> =================> all beats config<br>
+|	| |<br>
+|	| |- <strong>filebeat.yml.j2</strong></strong> =================> filebeat config<br>
+|	| |<br>
+|	|- <strong>logst-jvm.options.yml.j2</strong></strong> =================> logstash javamachine options<br>
+|	|<br>
+|	|- <strong>logstash-pipelines.yml.j2</strong></strong> =================> logstash pipelines config<br>
+|	|<br>
 |<br>
 |<br>
 |--- <strong>vars (variables folder)<br></strong>
@@ -67,5 +86,7 @@ You can just config only firewall with ```--tags config-firewall```
 | |- <strong>kibana-cfg.yml</strong>========> Contains main kibana configs<br>
 | |<br>
 | |- <strong>logstash-cfg.yml </strong>========> Contains main kibana configs<br>
+| |<br>
+| |- <strong>filebeat-cfg.yml</strong> ========> Contains filebeat config<br>
 | |<br>
 | |- <strong>install-variables.yml </strong>==> Contains variables only for installing proc<br>
