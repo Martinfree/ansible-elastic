@@ -42,7 +42,7 @@
   tags:
     - kibana
 
-- name: "Config logstash"
+- name: "Config logstash with beats"
   hosts: localhost
   gather_facts: yes
   tasks:
@@ -71,6 +71,20 @@
         dest: "/etc/logstash/"
         with_fileglob:
           - logstash/*.conf
+    
+    - include_vars: ../vars/filebeat-cfg.yml
+
+    - import_tasks: ansible-filebeats.yml
+      tags:
+        - filebeats
+        - all_beats
+    - name: "Copy default settings"
+      template:
+        src: ../templates/beats-conf/filebeat.yml.j2
+        dest: "etc/filebeat/filebeat.yml"
+      tags:
+        - filebeats
+        - all_beats
   tags:
     - logstash
 

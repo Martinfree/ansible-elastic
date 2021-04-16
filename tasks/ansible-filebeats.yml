@@ -1,0 +1,29 @@
+---
+- name: "Install Filebeats"
+  apt: 
+    deb: https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.12.0-amd64.deb 
+  tags:
+    - filebeats
+    - all_beats
+
+- name: "Config filebeat"
+  template:
+    src: ../templates/beats-conf/filebeat.yml.j2
+    dest: ""
+- name: "Include filebeats modules"
+  shell: "filebeat enable {{ item }}"
+  args:
+    chdir: "{{ filebeat_path }}"
+  with_items: "{{ filebeat_service.split(' ') }}"
+  tags:  
+    - all_beats
+    - filebeats
+
+- name: "Start filebeat"
+  shell: "filebeat"
+  args:
+    chdir: "{{ filebeat_path }}"
+  tags:  
+    - all_beats
+    - filebeats
+
