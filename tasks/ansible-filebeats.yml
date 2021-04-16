@@ -19,6 +19,14 @@
     - all_beats
     - filebeats
 
+- name : "Start filebeat"
+  service:
+    name: filebeat
+    state: started
+  tags:
+    - all_beats
+    - filebeats
+
 - name: "Start filebeat"
   shell: "filebeat"
   args:
