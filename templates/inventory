@@ -1,0 +1,10 @@
+[elastic-server]
+172.24.201.36 ansible_user=userconf ansible_password=userconf ansible_become_password=userconf
+
+[logstash-server]
+172.24.201.37 ansible_user=userconf ansible_password=userconf ansible_become_password=userconf
+
+[all]
+172.24.201.36 ansible_user=userconf ansible_password=userconf ansible_become_password=userconf
+172.24.201.37 ansible_user=userconf ansible_password=userconf ansible_become_password=userconf
+

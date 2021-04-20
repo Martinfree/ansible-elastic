@@ -1,3 +1,4 @@
 filebeat: true
-filebeat_modules: nginx system
+filebeat_service: nginx system
+filebeat_path: /etc/filebeat/
 

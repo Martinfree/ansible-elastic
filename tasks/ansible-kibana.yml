@@ -1,3 +1,9 @@
+- name: "Install kibana"
+  apt:
+    name: kibana
+    state: present
+  tags:
+    - kibana
 
 - name: "Start kibana"  
   service: 

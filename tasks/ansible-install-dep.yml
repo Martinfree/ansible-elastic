@@ -23,5 +23,6 @@
 - name: "Install java"
   apt:
     name: default-jre
-    state: present
+    state: latest
+    update_cache: yes
 

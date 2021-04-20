@@ -1,6 +1,7 @@
 - name: "Install dep"
-  hosts: localhost
+  hosts: elastic-server
   gather_facts: yes
+  become: yes
   tasks:
     - include_vars: ../vars/elastic-cfg.yml
     - include_vars: ../vars/kibana-cfg.yml
@@ -20,9 +21,21 @@
         src: ../templates/modsec_includes.conf
         dest: "/etc/nginx/modsec_includes.conf"
 
+    - name: Add a user to a password file and ensure permissions are set
+      htpasswd:
+        path: /etc/nginx/.htpasswd
+        name: userconf
     - name: "Config Nginx"
       template:
         src: ../templates/nginx.conf
         dest: "/etc/nginx/nginx.conf"
+    
+    - name: "Start Nginx"
+      service: 
+        name: nginx
+        state: started
+      tags:
+        - nginx-start
+ 
 
 

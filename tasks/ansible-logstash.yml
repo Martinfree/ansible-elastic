@@ -1,3 +1,9 @@
+- name: "Install logstash"
+  apt:
+    name: logstash
+    state: present
+  tags:
+    - logstash
 
 - name: "Start logstash"  
   service: 

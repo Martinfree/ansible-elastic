@@ -1,5 +1,12 @@
 ---
 
+- name: "Install Elasticsearch"
+  apt:
+    name: elasticsearch
+    update_cache: yes 
+  tags:
+    - elastic
+
 - name: "Start elasticsearch"  
   service: 
     name: elasticsearch

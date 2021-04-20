@@ -1,16 +1,17 @@
 ---
 
 - name: "Install elk"
-  hosts: localhost
+  hosts: all
   gather_facts: yes
+  become: yes
   tasks:
     - include_vars: ../vars/install-variables.yml 
     - import_tasks: ansible-install-dep.yml
-    - import_tasks: ansible-install-elk.yml
   
 - name: "Config elastic"
-  hosts: localhost
+  hosts: elastic-server
   gather_facts: yes
+  become: yes
   tasks:
     - include_vars: ../vars/elastic-cfg.yml
     - import_tasks: ansible-elastic.yml
@@ -29,8 +30,9 @@
 
 
 - name: "Config kibana"
-  hosts: localhost
+  hosts: elastic-server
   gather_facts: yes
+  become: yes
   tasks:
     - include_vars: ../vars/kibana-cfg.yml
     - import_tasks: ansible-kibana.yml
@@ -43,16 +45,18 @@
     - kibana
 
 - name: "Config logstash with beats"
-  hosts: localhost
+  hosts: logstash-server
   gather_facts: yes
+  become: yes
   tasks:
     - include_vars: ../vars/logstash-cfg.yml
+    - include_vars: ../vars/elastic-cfg.yml
     - import_tasks: ansible-logstash.yml
     
     - name: "Config logstash javammachine"
       template:
         src: ../templates/logst-jvm.options.yml.j2
-        dest: "/etc/logstash/config/jvm.options"
+        dest: "/etc/logstash/jvm.options"
     
     - name: "Config logstash pipeline"
       template:
@@ -67,10 +71,16 @@
     
     - name: "logstash plugins configs"
       template: 
-        src: ../templates/*.conf
-        dest: "/etc/logstash/"
-        with_fileglob:
-          - logstash/*.conf
+        src: ../templates/logstash-conf/10-input.conf.j2
+        dest: "/etc/logstash/conf.d/10-input.conf"
+    - name: "logstash plugins configs"
+      template: 
+        src: ../templates/logstash-conf/20-filter.conf.j2
+        dest: "/etc/logstash/conf.d/20-filter.conf"
+    - name: "logstash plugins configs"
+      template: 
+        src: ../templates/logstash-conf/30-output.conf.j2
+        dest: "/etc/logstash/conf.d/30-output.conf"
     
     - include_vars: ../vars/filebeat-cfg.yml
 
@@ -89,8 +99,9 @@
     - logstash
 
 - name: "Firewall setup"
-  hosts: localhost
+  hosts: all
   gather_facts: yes
+  become: yes
   tasks:
     - include_vars: ../vars/elastic-cfg.yml
     - include_vars: ../vars/kibana-cfg.yml

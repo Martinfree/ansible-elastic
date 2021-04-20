@@ -9,9 +9,9 @@
 - name: "Config filebeat"
   template:
     src: ../templates/beats-conf/filebeat.yml.j2
-    dest: ""
+    dest: "/etc/filebeat/filebeat.yml"
 - name: "Include filebeats modules"
-  shell: "filebeat enable {{ item }}"
+  shell: "filebeat modules enable {{ item }}"
   args:
     chdir: "{{ filebeat_path }}"
   with_items: "{{ filebeat_service.split(' ') }}"
@@ -27,11 +27,4 @@
     - all_beats
     - filebeats
 
-- name: "Start filebeat"
-  shell: "filebeat"
-  args:
-    chdir: "{{ filebeat_path }}"
-  tags:  
-    - all_beats
-    - filebeats
 
