@@ -4,38 +4,58 @@
   become: yes
   tasks:
     - include_vars: ../vars/elastic-cfg.yml
+      tags: nginx-start
     - include_vars: ../vars/kibana-cfg.yml
-    - import_tasks: ansible-nginx-install-dep.yml  
+      tags: nginx-start
+    - import_tasks: ansible-nginx-install-dep.yml
     - import_tasks: ansible-modsecurity.yml
     - import_tasks: ansible-nginx.yml
 
-    - name: "Config ModSecurity rules"
+    - name: "install pip"
+      apt:
+        name: python3-pip
+        state: latest
+      tags: htpasswd
+    - name: "install required python package"
+      pip:
+        name: passlib
+      tags: htpasswd
+
+    - name: "Add a user to a password file and ensure permissions are set"
+      htpasswd:
+        path: /etc/nginx/.htpasswd
+        name: nginx-user
+        password: CXjyBbBdAwr4XQng
+      tags: htpasswd
+
+    - name: "Config Modsecurity"
       template:
         src: ../templates/modsecurity.conf
         dest: "/etc/nginx/modsecurity.conf"
 
-    
-    
-    - name: "Includes ModSecurity config in nginx"
+    - name: "Config Modsecurity includes"
       template:
         src: ../templates/modsec_includes.conf
         dest: "/etc/nginx/modsec_includes.conf"
 
-    - name: Add a user to a password file and ensure permissions are set
-      htpasswd:
-        path: /etc/nginx/.htpasswd
-        name: userconf
+    - name: "ModSecurity setup"
+      shell: cp unicode.mapping /etc/nginx/
+      args:
+        chdir: /usr/src/ModSecurity/
+
+    - name: "OWASP ModSecurity setup"
+      shell: cp crs-setup.conf.example crs-setup.conf
+      args:
+        chdir: /etc/nginx/owasp-modsecurity-crs
+
     - name: "Config Nginx"
       template:
         src: ../templates/nginx.conf
         dest: "/etc/nginx/nginx.conf"
-    
+      tags: nginx-start
+
     - name: "Start Nginx"
-      service: 
+      service:
         name: nginx
         state: started
-      tags:
-        - nginx-start
- 
-
-
+      tags: nginx-start

@@ -1,8 +1,6 @@
 input {
-	{% if filebeat is defined %}
 		beats {
 			port => {{ logst_port }} 
 		}
-	{% endif %}
 
 }

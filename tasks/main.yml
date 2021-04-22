@@ -25,8 +25,6 @@
       template:
         src: ../templates/elasticsearch.yml.j2
         dest: "/etc/elasticsearch/elasticsearch.yml"
-  tags:
-    - elastic
 
 
 - name: "Config kibana"
@@ -41,8 +39,6 @@
       template:
         src: ../templates/kibana.yml.j2
         dest: "/etc/kibana/kibana.yml"
-  tags:
-    - kibana
 
 - name: "Config logstash with beats"
   hosts: logstash-server
@@ -69,6 +65,13 @@
         #src: ../templates/logstash.yml.j2
         #dest: "/etc/logstash/config/"
     
+    - name: "logstash deamon"
+      template: 
+        src: ../templates/logstash-conf/logstash.service
+        dest: "/etc/systemd/system/logstash.service"
+    - name: "logst serv"
+      shell: "systemctl daemon-reload"
+    
     - name: "logstash plugins configs"
       template: 
         src: ../templates/logstash-conf/10-input.conf.j2
@@ -91,7 +94,7 @@
     - name: "Copy default settings"
       template:
         src: ../templates/beats-conf/filebeat.yml.j2
-        dest: "etc/filebeat/filebeat.yml"
+        dest: "/etc/filebeat/filebeat.yml"
       tags:
         - filebeats
         - all_beats

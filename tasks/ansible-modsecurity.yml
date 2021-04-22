@@ -4,29 +4,31 @@
     dest: /usr/src/ModSecurity
     version: v3/master
     update: no
- 
-- name: "Build modsecurity"
-  shell: ./build.sh 
-  args:
-    chdir: /usr/src/ModSecurity/
-- name: "Build modsecurity"
-  shell: ./configure \
-   --enable-standalone-module \ 
-  args:
-    chdir: /usr/src/ModSecurity/
-- name: "Make modsecurity"
-  make:
-    chdir: /usr/src/ModSecurity/
-- name: "Make modsecurity install"
-  make:
-    chdir: /usr/src/ModSecurity/
-    target: install
-- name: "Download modsecurity nginx connector"
+
+- name: "Download ModSecurity nginx connector"
   git:
     repo: 'https://github.com/SpiderLabs/ModSecurity-nginx'
     dest: /usr/src/ModSecurity/ModSecurity-nginx
     update: no
 
+- name: "Build modsecurity"
+  shell: ./build.sh
+  args:
+    chdir: /usr/src/ModSecurity/
+
+- name: "Build modsecurity"
+  shell: ./configure --enable-standalone-module
+  args:
+    chdir: /usr/src/ModSecurity/
+
+- name: "Make modsecurity"
+  make:
+    chdir: /usr/src/ModSecurity/
+
+- name: "Make modsecurity install"
+  make:
+    chdir: /usr/src/ModSecurity/
+    target: install
 
 
 - name: "Modsecurity OWASP rules download"
@@ -35,16 +37,15 @@
     dest: /etc/nginx/owasp-modsecurity-crs
     update: no
 
-- name: "ModSecurity setup"  
-  shell: cp src-setup.conf.example src-setup.conf
+- name: "ModSecurity setup"
+  shell: mv src-setup.conf.example src-setup.conf
   args:
     chdir: /etc/nginx/owasp-modsecurity-crs
-  shell: cp REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf 
+
+
+  shell: cp REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
   args:
     chdir: /etc/nginx/owasp-modsecurity-crs/rules
   shell: cp RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
   args:
     chdir: /etc/nginx/owasp-modsecurity-crs/rules
-
-
-

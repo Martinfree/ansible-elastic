@@ -1,6 +1,6 @@
 output { 
 	elasticsearch {
-		hosts => ["http://localhost:{{ el_http_port }}"]
+		hosts => ["http://{{el_ip}}/elasticsearch/"]
 		index => "test-%{+YYYY.MM.ww}"
 	}
 } 

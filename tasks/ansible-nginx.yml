@@ -10,21 +10,22 @@
     dest: /usr/src
     remote_src: yes
 
-- name: "Install nginx"
-  shell: ./configure \ 
+- name: "Config nginx"
+  shell: ./configure \
          --user=nginx \
          --group=nginx \
          --prefix=/etc/nginx \
          --conf-path=/etc/nginx/nginx.conf \
          --add-module=/usr/src/ModSecurity/ModSecurity-nginx \
+         --with-compat \
          --error-log-path=/var/log/nginx/error.log \
          --http-log-path=/var/log/nginx/access.log \
          --with-http_v2_module \
-         --with-http_secure_link_module \ 
+         --with-http_secure_link_module \
          --with-stream \
          --with-http_gunzip_module \
          --with-stream_ssl_preread_module \
-         --with-stream_realip_module \ 
+         --with-stream_realip_module \
          --with-stream_ssl_module \
   args:
     chdir: /usr/src/nginx-1.18.0
@@ -39,5 +40,7 @@
     chdir: /usr/src/nginx-1.18.0
     target: install
   tags: nginx-install
-
-
+- name: "Make nginx build"
+  make:
+    chdir: /usr/src/nginx-1.18.0
+    target: modules

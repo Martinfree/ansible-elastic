@@ -8,4 +8,5 @@
 el_node_name: host1
 el_path_logs: /var/log/elasticsearch
 el_network_host: 127.0.0.1
+el_ip: 172.24.201.36
 el_http_port: 9200

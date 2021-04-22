@@ -23,17 +23,18 @@
     state: enabled
 
 - firewalld:
+    port: "80/tcp"
+    permanent: yes
+    state: enabled
+
+
+- firewalld:
     port: "{{ kb_server_port }}/tcp"
     permanent: yes
     state: enabled
 
 - name: "Except logstash in firewalld"
   firewalld:
-    service: logstash
-    permanent: yes
-    state: enabled
-
-- firewalld:
     port: "{{ logst_port }}/tcp"
     permanent: yes
     state: enabled
