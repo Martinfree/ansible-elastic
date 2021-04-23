@@ -38,7 +38,7 @@
     update: no
 
 - name: "ModSecurity setup"
-  shell: mv src-setup.conf.example src-setup.conf
+  shell: cp src-setup.conf.example src-setup.conf
   args:
     chdir: /etc/nginx/owasp-modsecurity-crs
 
